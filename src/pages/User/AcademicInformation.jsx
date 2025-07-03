@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { School } from '@mui/icons-material';
 
-const educationLevels = ['High School', 'Intermediate', 'Graduation', 'Post-Graduation'];
+const educationLevels = ['High School', 'Intermediate', 'Graduation'];
 const boards = ['UP Board', 'CBSE', 'ICSE', 'Other'];
 const scoreTypes = ['Percentage', 'CGPA'];
 
@@ -213,6 +213,26 @@ const AcademicInformation = () => {
                     </Grid>
                 </Box>
             ))}
+            <Box textAlign="center" mt={4}>
+                <button
+                    style={{
+                        backgroundColor: '#1a237e',
+                        color: '#fff',
+                        padding: '10px 30px',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        boxShadow: '0px 4px 10px rgba(0,0,0,0.2)',
+                    }}
+                    onClick={() => {
+                        console.log('Save clicked:', scores);
+                    }}
+                >
+                    Save & Changes
+                </button>
+            </Box>
         </>
     );
 };

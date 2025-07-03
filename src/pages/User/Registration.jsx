@@ -16,6 +16,8 @@ import { School } from '@mui/icons-material';
 import PersonalDetails from './PersonalDetails';
 import AcademicInformation from './AcademicInformation';
 import SelectSubject from './SelectSubject';
+import PaymentSubmission from './PaymentSubmission';
+
 
 const steps = ['Personal Details', 'Academic Information', 'Select Subject', 'Payment & Submission'];
 
@@ -118,11 +120,7 @@ const Registration = () => {
                         {activeStep === 0 && <PersonalDetails />}
                         {activeStep === 1 && <AcademicInformation />}
                         {activeStep === 2 && <SelectSubject />}
-                        {activeStep === 3 && (
-                            <Typography variant="h6" color="primary" textAlign="center">
-                                Payment & Submission step will be here.
-                            </Typography>
-                        )}
+                        {activeStep === 3 && <PaymentSubmission />}
 
                         {/* Navigation Buttons */}
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
