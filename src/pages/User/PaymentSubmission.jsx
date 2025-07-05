@@ -1,17 +1,34 @@
-// src/components/PaymentSubmission.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Typography,
     Divider,
     Button,
-    Grid
+    Grid,
+    TextField,
+    Alert
 } from '@mui/material';
 
 const PaymentSubmission = () => {
+    const [showSBIInput, setShowSBIInput] = useState(false);
+    const [sbiRefNo, setSbiRefNo] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+
     const handleConfirmPay = () => {
-        // Replace this with real payment logic
         alert('Payment Process Initiated!');
+    };
+
+    const handleSBICollectClick = () => {
+        window.open('https://www.onlinesbi.sbi/sbicollect/icollecthome.htm', '_blank');
+        setShowSBIInput(true);
+        setSubmitted(false);
+    };
+
+    const handleSBISubmit = () => {
+        if (sbiRefNo.trim() !== '') {
+            setSubmitted(true);
+            console.log('SBI Reference No:', sbiRefNo);
+        }
     };
 
     return (
@@ -66,8 +83,58 @@ const PaymentSubmission = () => {
                             📱 UPI / QR Code
                         </Button>
                     </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            sx={{ py: 1.5, fontWeight: 600 }}
+                            onClick={handleSBICollectClick}
+                        >
+                            🏛️ Pay via SBI Collect
+                        </Button>
+                    </Grid>
                 </Grid>
             </Box>
+
+            {/* SBI Collect Reference Input */}
+            {showSBIInput && (
+                <Box
+                    sx={{
+                        mb: 3,
+                        p: 2,
+                        border: '1px dashed #90caf9',
+                        borderRadius: 2,
+                        backgroundColor: '#f1f8ff'
+                    }}
+                >
+                    <Typography variant="subtitle1" gutterBottom>
+                        Enter SBI Collect Reference Number
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        label="SBI Reference Number"
+                        variant="outlined"
+                        value={sbiRefNo}
+                        onChange={(e) => setSbiRefNo(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={handleSBISubmit}
+                        sx={{ textTransform: 'none', fontWeight: 600 }}
+                    >
+                        Submit Reference Number
+                    </Button>
+
+                    {submitted && (
+                        <Alert severity="success" sx={{ mt: 2 }}>
+                            SBI Reference Number Submitted: <strong>{sbiRefNo}</strong>
+                        </Alert>
+                    )}
+                </Box>
+            )}
 
             {/* UPI Section */}
             <Box

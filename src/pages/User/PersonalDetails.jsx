@@ -70,7 +70,20 @@ const validationSchema = Yup.object().shape({
     mothersName: Yup.string().required("Mother's Name is required"),
     aadharNumber: Yup.string()
         .matches(/^[0-9]{12}$/, 'Aadhar number must be 12 digits')
-        .required('Aadhar number is required')
+        .required('Aadhar number is required'),
+    candidatePhoto: Yup.mixed()
+        .required('Photo is required')
+        .test('fileSize', 'Max 50KB', (value) => !value || value.size <= 50 * 1024)
+        .test('fileType', 'Only JPG/JPEG allowed', (value) =>
+            !value || ['image/jpeg', 'image/jpg'].includes(value.type)
+        ),
+    candidateSignature: Yup.mixed()
+        .required('Signature is required')
+        .test('fileSize', 'Max 100KB', (value) => !value || value.size <= 100 * 1024)
+        .test('fileType', 'Only PDF/JPG/JPEG allowed', (value) =>
+            !value || ['application/pdf', 'image/jpeg', 'image/jpg'].includes(value.type)
+        ),
+
 });
 
 const PersonalDetails = () => {
@@ -108,7 +121,9 @@ const PersonalDetails = () => {
             },
             fathersName: '',
             mothersName: '',
-            parentsMobile: ''
+            parentsMobile: '',
+            candidatePhoto: null,
+            candidateSignature: null,
         },
         validationSchema,
         onSubmit: (values) => {
@@ -814,6 +829,63 @@ const PersonalDetails = () => {
                         onChange={formik.handleChange}
                     />
                 </Grid>
+
+                {/* Candidate Photo */}
+                <Grid size={{ xs: 12, sm: 6 }}>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                        Candidate Photo (JPG/JPEG - Max 50KB)
+                    </Typography>
+                    <Button variant="contained" component="label" sx={{ mt: 1 }}>
+                        Upload Photo
+                        <input
+                            hidden
+                            type="file"
+                            accept=".jpg,.jpeg"
+                            name="candidatePhoto"
+                            onChange={(e) => {
+                                const file = e.currentTarget.files[0];
+                                formik.setFieldValue('candidatePhoto', file);
+                            }}
+                        />
+                    </Button>
+                    {formik.errors.candidatePhoto && (
+                        <FormHelperText error>{formik.errors.candidatePhoto}</FormHelperText>
+                    )}
+                    {formik.values.candidatePhoto && (
+                        <Typography variant="body2" mt={1}>
+                            {formik.values.candidatePhoto.name}
+                        </Typography>
+                    )}
+                </Grid>
+
+                {/* Candidate Signature */}
+                <Grid size={{ xs: 12, sm: 6 }}>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                        Candidate Signature (PDF/JPG/JPEG - Max 100KB)
+                    </Typography>
+                    <Button variant="contained" component="label" sx={{ mt: 1 }}>
+                        Upload Signature
+                        <input
+                            hidden
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg"
+                            name="candidateSignature"
+                            onChange={(e) => {
+                                const file = e.currentTarget.files[0];
+                                formik.setFieldValue('candidateSignature', file);
+                            }}
+                        />
+                    </Button>
+                    {formik.errors.candidateSignature && (
+                        <FormHelperText error>{formik.errors.candidateSignature}</FormHelperText>
+                    )}
+                    {formik.values.candidateSignature && (
+                        <Typography variant="body2" mt={1}>
+                            {formik.values.candidateSignature.name}
+                        </Typography>
+                    )}
+                </Grid>
+
 
                 {/* Submit Button */}
                 <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
