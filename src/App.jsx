@@ -12,6 +12,8 @@ import InventoryControl from './pages/InventoryControl';
 import FinancialOverview from './pages/FinancialOverview';
 import Settings from './pages/Settings';
 import Registration from './pages/User/Registration';
+import Login from './pages/User/UserLogin/Login';
+import Register from './pages/User/UserLogin/Register';
 
 const App = ({ mode, toggleColorMode }) => (
   <>
@@ -31,7 +33,11 @@ const App = ({ mode, toggleColorMode }) => (
         </Box>
       </Box>
     </Box> */}
-    <Registration />
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/registration" element={<Registration />} />
+    </Routes>
   </>
 );
 
